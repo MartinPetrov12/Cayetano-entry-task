@@ -1,5 +1,8 @@
 package com.cayetano.entrytask.service;
 
+import com.cayetano.entrytask.controller.FinishedGameException;
+import com.cayetano.entrytask.controller.GameNotStartedException;
+import com.cayetano.entrytask.controller.InsufficientBalanceException;
 import com.cayetano.entrytask.entity.Card;
 import com.cayetano.entrytask.entity.Result;
 import com.cayetano.entrytask.entity.Round;
@@ -53,9 +56,9 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Card start(int balance) throws Exception {
+    public Card start(int balance) throws IllegalArgumentException {
         if(balance < 0) {
-            throw new Exception("Negative balance is not permitted");
+            throw new IllegalArgumentException("Negative balance is not permitted");
         } else {
             setCurrentPlayerBalance(balance);
             composeDeck();
@@ -95,18 +98,19 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Card shuffle() throws Exception {
+    public Card shuffle() throws GameNotStartedException {
+        if(deck == null) throw new GameNotStartedException();
         return start(currentPlayerBalance);
     }
 
     @Override
-    public Round bet(int stake, boolean higher) throws Exception {
+    public Round bet(int stake, boolean higher) throws GameNotStartedException, InsufficientBalanceException, FinishedGameException {
         if(this.lastDrawnCard == null) {
-            throw new Exception("You haven't drawn a card yet");
+            throw new GameNotStartedException();
         } else if(stake > currentPlayerBalance) {
-            throw new Exception("Invalid stake, you do not have sufficient balance");
+            throw new InsufficientBalanceException(stake, currentPlayerBalance);
         } else if(this.getDeck().size() == 0) {
-            throw new Exception("Deck is empty. You need to start a new game.");
+            throw new FinishedGameException("Deck is empty. You need to start a new game.");
         } else {
 
             Result result;

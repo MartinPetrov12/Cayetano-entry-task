@@ -19,17 +19,17 @@ public class GameController {
     }
 
     @GetMapping("/start")
-    public Card start(@RequestParam int balance) throws Exception {
+    public Card start(@RequestParam int balance) throws IllegalArgumentException {
         return gameService.start(balance);
     }
 
     @GetMapping("/shuffle")
-    public Card shuffle() throws Exception {
+    public Card shuffle() throws GameNotStartedException {
         return gameService.shuffle();
     }
 
     @GetMapping("/bet")
-    public Round bet(@RequestParam int stake, @RequestParam boolean higher) throws Exception {
+    public Round bet(@RequestParam int stake, @RequestParam boolean higher) throws InsufficientBalanceException, GameNotStartedException{
         return gameService.bet(stake, higher);
     }
 }
