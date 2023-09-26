@@ -7,6 +7,7 @@ import com.cayetano.entrytask.entity.Result;
 import com.cayetano.entrytask.entity.Round;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -21,18 +22,18 @@ public class GameServiceImpl implements GameService {
 
     private Card lastDrawnCard;
 
+    public GameServiceImpl() {
+        this.rand = new Random();
+        this.currentPlayerBalance = 0;
+        this.lastDrawnCard = null;
+    }
+
     public Card getLastDrawnCard() {
         return lastDrawnCard;
     }
 
     public void setLastDrawnCard(Card lastDrawnCard) {
         this.lastDrawnCard = lastDrawnCard;
-    }
-
-    public GameServiceImpl() {
-        this.rand = new Random();
-        this.currentPlayerBalance = 0;
-        this.lastDrawnCard = null;
     }
 
     public List<Card> getDeck() {
@@ -62,7 +63,6 @@ public class GameServiceImpl implements GameService {
             setLastDrawnCard(drawnCard);
             return drawnCard;
         }
-
     }
 
     private Card drawCard() {
@@ -80,13 +80,10 @@ public class GameServiceImpl implements GameService {
                 deck.add(new Card(suit, face));
             }
         }
-        for (int i = 0; i < 51; i++)
-        {
-            int r = i + rand.nextInt(52 - i);
 
-            Card temp = deck.get(r);
-            deck.set(r, deck.get(i));
-            deck.set(i, temp);
+        Collections.shuffle(deck);
+        for(Card card: deck) {
+            System.out.println(card);
         }
 
         setDeck(deck);

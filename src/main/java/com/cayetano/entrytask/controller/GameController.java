@@ -20,11 +20,6 @@ public class GameController {
 
     /**
      *
-     * Opciq 1: Vrushtam prosto object na kartata
-     * Opciq 2: Vrushtam, v koito opisvam kartata i nachaloto na igrata
-     */
-    /**
-     *
      * @param balance
      * @return
      * @throws IllegalArgumentException
@@ -40,7 +35,7 @@ public class GameController {
     }
 
     @GetMapping("/bet")
-    public Round bet(@RequestParam int stake, @RequestParam boolean higher) throws InsufficientBalanceException, GameStatusException{
+    public Round bet(@RequestParam int stake, @RequestParam boolean higher) throws InsufficientBalanceException, GameStatusException {
         return gameService.bet(stake, higher);
     }
 }
