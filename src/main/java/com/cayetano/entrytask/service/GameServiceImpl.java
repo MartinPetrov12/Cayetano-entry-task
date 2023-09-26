@@ -1,7 +1,6 @@
 package com.cayetano.entrytask.service;
 
-import com.cayetano.entrytask.controller.FinishedGameException;
-import com.cayetano.entrytask.controller.GameNotStartedException;
+import com.cayetano.entrytask.controller.GameStatusException;
 import com.cayetano.entrytask.controller.InsufficientBalanceException;
 import com.cayetano.entrytask.entity.Card;
 import com.cayetano.entrytask.entity.Result;
@@ -42,9 +41,6 @@ public class GameServiceImpl implements GameService {
 
     public void setDeck(List<Card> deck) {
         this.deck = deck;
-//        for(Card card: deck) {
-//            System.out.println(card);
-//        }
     }
 
     private int getCurrentPlayerBalance() {
@@ -57,13 +53,12 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Card start(int balance) throws IllegalArgumentException {
-        if(balance < 0) {
-            throw new IllegalArgumentException("Negative balance is not permitted");
+        if(balance <= 0) {
+            throw new IllegalArgumentException("Nonpositive balance is not permitted.");
         } else {
             setCurrentPlayerBalance(balance);
             composeDeck();
             Card drawnCard = drawCard();
-            System.out.println("New deck size: " + deck.size());
             setLastDrawnCard(drawnCard);
             return drawnCard;
         }
@@ -98,19 +93,19 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Card shuffle() throws GameNotStartedException {
-        if(deck == null) throw new GameNotStartedException();
+    public Card shuffle() throws GameStatusException {
+        if(deck == null) throw new GameStatusException("You haven't started a game yet.");
         return start(currentPlayerBalance);
     }
 
     @Override
-    public Round bet(int stake, boolean higher) throws GameNotStartedException, InsufficientBalanceException, FinishedGameException {
+    public Round bet(int stake, boolean higher) throws GameStatusException, InsufficientBalanceException {
         if(this.lastDrawnCard == null) {
-            throw new GameNotStartedException();
+            throw new GameStatusException("You haven't started a game yet.");
         } else if(stake > currentPlayerBalance) {
             throw new InsufficientBalanceException(stake, currentPlayerBalance);
         } else if(this.getDeck().size() == 0) {
-            throw new FinishedGameException("Deck is empty. You need to start a new game.");
+            throw new GameStatusException("Deck is empty. You need to start a new game.");
         } else {
 
             Result result;
@@ -129,7 +124,6 @@ public class GameServiceImpl implements GameService {
             }
 
             setLastDrawnCard(newCard);
-            System.out.println("New deck size: " + deck.size());
             return new Round(newCard, result, currentPlayerBalance);
         }
     }
