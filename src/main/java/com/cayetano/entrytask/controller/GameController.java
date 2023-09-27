@@ -1,7 +1,7 @@
 package com.cayetano.entrytask.controller;
 
 import com.cayetano.entrytask.entity.Card;
-import com.cayetano.entrytask.entity.Round;
+import com.cayetano.entrytask.service.Round;
 import com.cayetano.entrytask.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

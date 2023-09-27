@@ -1,4 +1,7 @@
-package com.cayetano.entrytask.entity;
+package com.cayetano.entrytask.service;
+
+import com.cayetano.entrytask.entity.Card;
+import com.cayetano.entrytask.entity.Result;
 
 public class Round {
     private Card drawnCard;

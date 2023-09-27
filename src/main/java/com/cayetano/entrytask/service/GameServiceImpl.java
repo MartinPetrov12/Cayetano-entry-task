@@ -4,7 +4,6 @@ import com.cayetano.entrytask.controller.GameStatusException;
 import com.cayetano.entrytask.controller.InsufficientBalanceException;
 import com.cayetano.entrytask.entity.Card;
 import com.cayetano.entrytask.entity.Result;
-import com.cayetano.entrytask.entity.Round;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
