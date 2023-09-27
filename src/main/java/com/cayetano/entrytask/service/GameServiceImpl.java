@@ -41,11 +41,11 @@ public class GameServiceImpl implements GameService {
         this.deck = deck;
     }
 
-    private Integer getPlayerBalance() {
+    public Integer getPlayerBalance() {
         return playerBalance;
     }
 
-    private void setPlayerBalance(Integer playerBalance) {
+    public void setPlayerBalance(Integer playerBalance) {
         this.playerBalance = playerBalance;
     }
 
