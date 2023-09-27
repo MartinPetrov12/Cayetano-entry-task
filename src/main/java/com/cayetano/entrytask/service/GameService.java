@@ -8,7 +8,7 @@ import com.cayetano.entrytask.entity.Round;
 public interface GameService {
     Card start(int balance) throws IllegalArgumentException;
 
-    Card shuffle() throws GameStatusException;
+    Card reshuffle() throws GameStatusException;
 
     Round bet(int stake, boolean higher) throws GameStatusException, InsufficientBalanceException;
 }
